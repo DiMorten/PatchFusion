@@ -86,6 +86,7 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
         self.tile_cfg = self.prepare_tile_cfg(config.image_raw_shape, config.patch_split_num)
         
         self.coarse_branch_cfg = config.coarse_branch
+        print("config.coarse_branch", config.coarse_branch)
         if config.coarse_branch.type == 'ZoeDepth':
             self.coarse_branch = ZoeDepth.build(**config.coarse_branch)
             self.resizer = ResizeZoe(config.patch_process_shape[1], config.patch_process_shape[0], keep_aspect_ratio=False, ensure_multiple_of=32, resize_method="minimal")
