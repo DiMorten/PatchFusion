@@ -300,7 +300,7 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
         rel_cond = torch.zeros((bs, 1, h, w), device=last.device)
         _, seed_b_centers = self.seed_bin_regressor(x)
 
-        if self.coarse_branch_cfg.bin_centers_type == 'normed' or self.coarse_branch_cfg.bin_centers_type == 'hybrid2':
+        if self.coarse_branch_cfg['bin_centers_type'] == 'normed' or self.coarse_branch_cfg['bin_centers_type'] == 'hybrid2':
             b_prev = (seed_b_centers - self.min_depth) / \
                 (self.max_depth - self.min_depth)
         else:
