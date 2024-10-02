@@ -86,7 +86,6 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
         self.tile_cfg = self.prepare_tile_cfg(config.image_raw_shape, config.patch_split_num)
         
         self.coarse_branch_cfg = config.coarse_branch
-        print("config.coarse_branch", config.coarse_branch)
         if config.coarse_branch['type'] == 'ZoeDepth':
             self.coarse_branch = ZoeDepth.build(**config.coarse_branch)
             self.resizer = ResizeZoe(config.patch_process_shape[1], config.patch_process_shape[0], keep_aspect_ratio=False, ensure_multiple_of=32, resize_method="minimal")
@@ -161,12 +160,12 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
         self.attractors = nn.ModuleList([
             Attractor(self.coarse_branch_cfg['bin_embedding_dim'], self.coarse_branch_cfg['n_bins'], n_attractors=self.coarse_branch_cfg['n_attractors'][i], min_depth=config.min_depth, max_depth=config.max_depth,
                       alpha=self.coarse_branch_cfg['attractor_alpha'], gamma=self.coarse_branch_cfg['attractor_gamma'], kind=self.coarse_branch_cfg['attractor_kind'], attractor_type=self.coarse_branch_cfg['attractor_type'])
-            for i in rang['(']len(num_out_features))
+            for i in range(len(num_out_features))
         ])
         
-        last_in =['N_MIDAS_OUT'] + 1  # +1 for relative depth
+        last_in = N_MIDAS_OUT + 1  # +1 for relative depth
 
-        # ['se'] log binomial instead of softmax
+        # use log binomial instead of softmax
         self.conditional_log_binomial = ConditionalLogBinomial(
             last_in, self.coarse_branch_cfg['bin_embedding_dim'], n_classes=self.coarse_branch_cfg['n_bins'], min_temp=self.coarse_branch_cfg['min_temp'], max_temp=self.coarse_branch_cfg['max_temp'])
         
@@ -175,11 +174,11 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
     
       
     def load_dict(self, dict):
-['     return'] self.load_state_dict(dict, stric['=']False)
+        return self.load_state_dict(dict, strict=False)
                 
-    def get_save_dict(self)['
-        current_model_dict'] = self.state_dict()
-        save['state_dict'] = {}
+    def get_save_dict(self):
+        current_model_dict = self.state_dict()
+        save_state_dict = {}
         for k, v in current_model_dict.items():
             if 'coarse_branch' in k or 'fine_branch' in k:
                 pass
