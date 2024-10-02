@@ -87,18 +87,18 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
         
         self.coarse_branch_cfg = config.coarse_branch
         print("config.coarse_branch", config.coarse_branch)
-        if config.coarse_branch.type == 'ZoeDepth':
+        if config.coarse_branch['type'] == 'ZoeDepth':
             self.coarse_branch = ZoeDepth.build(**config.coarse_branch)
             self.resizer = ResizeZoe(config.patch_process_shape[1], config.patch_process_shape[0], keep_aspect_ratio=False, ensure_multiple_of=32, resize_method="minimal")
-        elif config.coarse_branch.type == 'DA-ZoeDepth':
+        elif config.coarse_branch['type'] == 'DA-ZoeDepth':
             self.coarse_branch = ZoeDepth.build(**config.coarse_branch)
             self.resizer = ResizeDA(config.patch_process_shape[1], config.patch_process_shape[0], keep_aspect_ratio=False, ensure_multiple_of=14, resize_method="minimal")
         else:
             raise NotImplementedError
         
-        if config.fine_branch.type == 'ZoeDepth':
+        if config.fine_branch['type'] == 'ZoeDepth':
             self.fine_branch = ZoeDepth.build(**config.fine_branch)
-        elif config.fine_branch.type == 'DA-ZoeDepth':
+        elif config.fine_branch['type'] == 'DA-ZoeDepth':
             self.fine_branch = ZoeDepth.build(**config.fine_branch)
         else:
             raise NotImplementedError
