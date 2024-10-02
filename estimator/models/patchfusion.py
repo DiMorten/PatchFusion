@@ -74,8 +74,8 @@ class PatchFusion(BaselinePretrain, PyTorchModelHubMixin):
             # we use MMengine ConfigDict to convert str to dict correctly here
             config = PretrainedConfig.from_dict(ConfigDict(**config).to_dict())
             config.load_branch = False
-            config.coarse_branch.pretrained_resource = None
-            config.fine_branch.pretrained_resource = None
+            config.coarse_branch['pretrained_resource'] = None
+            config.fine_branch['pretrained_resource'] = None
             
         self.config = config
         
